@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3 col-sm-offset-2 col-sm-8 col-xs-12" >
+          <form class="credit">
+
+            <div class="row xform-group">
+              <div class="col-md-6">
+                <label for="amount">Cantidad</label>
+                <div class="input-group">
+                  <div class="input-group-addon">Cant</div>
+                  <input type="number" class="form-control validate" id="cant" placeholder="Cantidad" />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="amount">Denominacion</label>
+                <div class="input-group">
+                  <div class="input-group-addon">Deno</div>
+                  <input type="number" class="form-control validate" id="deno" placeholder="Denominacion" />
+                </div>
+              </div>
+            </div>
+
+            <br/>
+
+            <div class="row">
+              <div class="col-md-12">
+                <label for="amount">Respuesta</label>
+                <div class="input-group">
+                  <div class="input-group-addon">Res</div>
+                  <input class="form-control validate" id="res" />
+                </div>
+              </div>
+            </div>
+       
+
+            <br />
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <span onclick="ingresar()" class="btn btn-primary btn-block">Ingresar Monedas</span>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-6">
+                <span onclick="monedas()" class="btn btn-info btn-block">Cantidad de Monedas</span>
+              </div>
+
+              <div class="col-md-6">
+                <span onclick="monedasDeno()" class="btn btn-info btn-block">Monedas por Denominacion</span>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-6">
+                <span onclick="dinero()" class="btn btn-success btn-block">Cantidad de Dinero</span>
+              </div>
+
+              <div class="col-md-6">
+                <span onclick="dineroDeno()" class="btn btn-success btn-block">Dinero por Denominacion</span>
+              </div>
+            </div>
+
+          </form>
+
+          <br />
+          <div class="row form-group">
+            <div class="col-md-12">
+                <p><strong>Las rutas asignadas al servicio de alcancia son: </strong> </p>
+<p><a href="/alcancia/10/500">/alcancia/{cantidad}/{denominacion}</a> <br /> Permite ingresar una cantidad de monedas con determinada denominacion</p>
+<p><a href="/alcancia/monedas">/alcancia/monedas</a> <br /> Permite consultar la cantidad de monedas en la alcancia</p>
+<p><a href="/alcancia/monedas/500">/alcancia/monedas/{denominacion}</a> <br /> Permite consultar la cantidad de monedas por denominacion</p>
+<p><a href="/alcancia/dinero">/alcancia/dinero</a> <br /> Permite consultar la cantidad de dinero en la alcancia</p>
+<p><a href="/alcancia/dinero/500">/alcancia/dinero/{denominacion}</a> <br /> Permite consultar la cantidad de dinero por denominacion</p>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+      
+      async function ingresar() {
+        const cantidad = document.getElementById("cant");
+        const denominacion = document.getElementById("deno");
+        const respuesta = document.getElementById("res");
+        
+        let response = await fetch(
+            'http://127.0.0.1:8080/alcancia/'+ cantidad.value +'/' + denominacion.value
+        );
+
+        let text = await response.text(); // read response body as text
+
+        respuesta.value = text;
+      }
+
+
+      async function monedas() {
+        const respuesta = document.getElementById("res");
+        
+        let response = await fetch(
+            'http://127.0.0.1:8080/alcancia/monedas'
+        );
+
+        let text = await response.text(); // read response body as text
+
+        respuesta.value = text;
+      }
+
+
+      async function monedasDeno() {
+        const denominacion = document.getElementById("deno");
+        const respuesta = document.getElementById("res");
+        
+        let response = await fetch(
+            'http://127.0.0.1:8080/alcancia/monedas/' + denominacion.value
+        );
+
+        let text = await response.text(); // read response body as text
+
+        respuesta.value = text;
+      }
+
+
+      async function dinero() {
+        const respuesta = document.getElementById("res");
+        
+        let response = await fetch(
+            'http://127.0.0.1:8080/alcancia/dinero'
+        );
+
+        let text = await response.text(); // read response body as text
+
+        respuesta.value = text;
+      }
+
+
+      async function dineroDeno() {
+        const denominacion = document.getElementById("deno");
+        const respuesta = document.getElementById("res");
+        
+        let response = await fetch(
+            'http://127.0.0.1:8080/alcancia/dinero/' + denominacion.value
+        );
+
+        let text = await response.text(); // read response body as text
+
+        respuesta.value = text;
+      }
+
+
+    </script>
+  </body>
+</html>
